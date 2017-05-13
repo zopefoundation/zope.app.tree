@@ -36,7 +36,7 @@
 
   <adapter
       provides=".interfaces.IChildObjects"
-      for="zope.app.container.interfaces.IReadContainer"
+      for="zope.container.interfaces.IReadContainer"
       factory=".adapters.ContainerChildObjects"
       />
 
@@ -63,4 +63,3 @@
   </configure>
 
 </configure>
-
