@@ -13,13 +13,15 @@
 ##############################################################################
 """A node in the tree
 
-$Id$
 """
 from zope.component import getUtility
-from zope.interface import implements
+from zope.interface import implementer
 from zope.app.tree.interfaces import INode, IUniqueId, IChildObjects
 from zope.app.tree.interfaces import ITreeStateEncoder
 
+_MARKER = object()
+
+@implementer(INode)
 class Node(object):
     """A tree node
 
@@ -30,21 +32,27 @@ class Node(object):
     This implementation is designed to be as lazy as possible.
     Especially, it will only create child nodes when necessary.
     """
-    implements(INode)
+
 
     __slots__ = (
         'context', 'expanded', 'filter', '_id', '_expanded_nodes',
         '_child_nodes', '_child_objects_adapter',
-        )
+    )
 
-    def __init__(self, context, expanded_nodes=[], filter=None):
+    def __init__(self, context, expanded_nodes=(), filter=None):
         self.context = context
         self.expanded = False
         self.filter = filter
         self._expanded_nodes = expanded_nodes
-        self._id = id = IUniqueId(context).getId()
-        if id in expanded_nodes:
+        self._child_nodes = _MARKER
+        self._child_objects_adapter = _MARKER
+        self._id = uid = IUniqueId(context).getId()
+        if uid in expanded_nodes:
             self.expand()
+
+    def __repr__(self):
+        c = self.__class__
+        return "<%s.%s id='%s' at %s>" % (c.__module__, c.__name__, self._id, id(self))
 
     def _create_child_nodes(self):
         """Create child nodes and save the result so we don't have
@@ -57,7 +65,7 @@ class Node(object):
 
     def _get_child_objects_adapter(self):
         """Lazily create the child objects adapter"""
-        if not hasattr(self, '_child_objects_adapter'):
+        if self._child_objects_adapter is _MARKER:
             self._child_objects_adapter = IChildObjects(self.context)
         return self._child_objects_adapter
 
@@ -89,12 +97,12 @@ class Node(object):
         if filter:
             return [child for child in children if filter.matches(child)]
         return children
-        
+
     def getChildNodes(self):
         """See zope.app.tree.interfaces.INode"""
         if not self.expanded:
             return []
-        if not hasattr(self, '_child_nodes'):
+        if self._child_nodes is _MARKER:
             # children nodes are not created until they are explicitly
             # requested through this method
             self._create_child_nodes()

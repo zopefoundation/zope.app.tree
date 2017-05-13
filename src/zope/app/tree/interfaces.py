@@ -13,7 +13,6 @@
 ##############################################################################
 """Static tree interfaces
 
-$Id$
 """
 
 from zope.interface import Interface, Attribute
@@ -106,9 +105,9 @@ class INode(IUniqueId, IChildObjects):
 
           - 'last-level-node': A boolean that signifies whether a node is the
             last node of its level.
-            
+
         This method is intended for output formats that cannot handle nested
-        values easily. An example here are Page Templates. 
+        values easily. An example here are Page Templates.
         """
 
 class ITreeStateEncoder(Interface):

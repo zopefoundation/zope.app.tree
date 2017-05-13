@@ -13,7 +13,6 @@
 ##############################################################################
 """Browser views
 
-$Id$
 """
 __docformat__ = 'restructuredtext'
 
@@ -32,7 +31,7 @@ try: # we try not to depend on zope.app.rotterdam hardly
     class IStaticTreeSkin(IStaticTreeLayer, Rotterdam):
         """Skin based on Rotterdam that includes the static tree
         navigation macro."""
-except ImportError:
+except ImportError: # pragma: no cover
     pass
 
 class StatefulTreeView(BrowserView):

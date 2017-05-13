@@ -13,7 +13,6 @@
 ##############################################################################
 """Stateful cookie tree
 
-$Id$
 """
 import zope.traversing.api
 from zope.traversing.interfaces import IContainmentRoot
@@ -31,7 +30,7 @@ class CookieTreeView(StatefulTreeView):
     """A stateful tree view using cookies to remember the tree state"""
 
     request_variable = 'tree-state'
-    
+
     def cookieTree(self, root=None, filter=None):
         """Build a tree with tree state information from a request.
         """
