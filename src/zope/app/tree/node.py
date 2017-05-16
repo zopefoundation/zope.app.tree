@@ -19,7 +19,6 @@ from zope.interface import implementer
 from zope.app.tree.interfaces import INode, IUniqueId, IChildObjects
 from zope.app.tree.interfaces import ITreeStateEncoder
 
-_MARKER = object()
 
 @implementer(INode)
 class Node(object):
@@ -44,8 +43,8 @@ class Node(object):
         self.expanded = False
         self.filter = filter
         self._expanded_nodes = expanded_nodes
-        self._child_nodes = _MARKER
-        self._child_objects_adapter = _MARKER
+        self._child_nodes = None
+        self._child_objects_adapter = None
         self._id = uid = IUniqueId(context).getId()
         if uid in expanded_nodes:
             self.expand()
@@ -65,7 +64,7 @@ class Node(object):
 
     def _get_child_objects_adapter(self):
         """Lazily create the child objects adapter"""
-        if self._child_objects_adapter is _MARKER:
+        if self._child_objects_adapter is None:
             self._child_objects_adapter = IChildObjects(self.context)
         return self._child_objects_adapter
 
@@ -102,7 +101,7 @@ class Node(object):
         """See zope.app.tree.interfaces.INode"""
         if not self.expanded:
             return []
-        if self._child_nodes is _MARKER:
+        if self._child_nodes is None:
             # children nodes are not created until they are explicitly
             # requested through this method
             self._create_child_nodes()
