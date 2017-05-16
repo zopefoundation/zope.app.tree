@@ -13,20 +13,20 @@
 ##############################################################################
 """Test tree node code.
 
-$Id$
 """
+from __future__ import absolute_import
 import unittest
 from zope.app.tree.tests.basetest import BaseTestCase
-from zope.interface import implements
+from zope.interface import implementer
 from zope.container.interfaces import IObjectFindFilter
 from zope.app.tree.node import Node
 
 
+@implementer(IObjectFindFilter)
 class FilterByObject(object):
     """Simple filter that filters out any objects that wasn't passed
     in as a valid object before
     """
-    implements(IObjectFindFilter)
 
     def __init__(self, *tree):
         # Flatten recursive list
@@ -52,20 +52,28 @@ class NodeTestCase(BaseTestCase):
     def test_expand_collapse(self):
         # first the node is expanded
         root_node = self.root_node
-        self.failUnless(root_node.expanded)
+        self.assertTrue(root_node.expanded)
         # now collapse it
         root_node.collapse()
-        self.failIf(root_node.expanded)
+        self.assertFalse(root_node.expanded)
         # make sure there are no children nodes returned!
         self.assertEqual(root_node.getChildNodes(), [])
         # expand it again
         root_node.expand()
-        self.failUnless(root_node.expanded)
+        self.assertTrue(root_node.expanded)
+        self.assertEqual(2, len(root_node.getChildNodes()))
+
+        root_node.collapse()
+        root_node.expand(recursive=True)
+        self.assertEqual(2, len(root_node.getChildNodes()))
+
+        # coverage
+        repr(root_node)
 
     def test_children(self):
         # test hasChildren()
         root_node = self.root_node
-        self.failUnless(root_node.hasChildren())
+        self.assertTrue(root_node.hasChildren())
 
         # test getChildNodes()
         children = [node.context for node in root_node.getChildNodes()]
@@ -114,7 +122,9 @@ class NodeTestCase(BaseTestCase):
         expanded = ['a', 'c', 'f']
         root_node = Node(self.root_obj, expanded)
         flat, maxdepth = root_node.getFlatDicts()
+        self.assertEqual(6, len(flat))
+        self.assertEqual(2, maxdepth)
 
 
 def test_suite():
-    return unittest.makeSuite(NodeTestCase)
+    return unittest.defaultTestLoader.loadTestsFromName(__name__)

@@ -1,6 +1,6 @@
 ##############################################################################
 #
-# Copyright (c) 2004 Zope Corporation and Contributors.
+# Copyright (c) 2017 Zope Corporation and Contributors.
 # All Rights Reserved.
 #
 # This software is subject to the provisions of the Zope Public License,
@@ -11,17 +11,26 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""Test Tree Utilities (including Encoder)
+"""Test tree node code.
 
 """
-
-import unittest
 import doctest
+import unittest
+from zope.app.tree import utils
+
+
+class TestUtils(unittest.TestCase):
+
+    def test_b2a_long(self):
+        long_s = b'b' * 59
+        expected = 'YmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmI_'
+        translated = utils.b2a(long_s)
+        self.assertEqual(translated, expected)
+
+        self.assertEqual(long_s, utils.a2b(translated))
 
 def test_suite():
     return unittest.TestSuite((
+        unittest.defaultTestLoader.loadTestsFromName(__name__),
         doctest.DocTestSuite('zope.app.tree.utils'),
-        ))
-
-if __name__ == '__main__':
-    unittest.main(defaultTest='test_suite')
+    ))

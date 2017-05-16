@@ -18,10 +18,11 @@ statictree. The most prominent ones are those for ILocation and
 IContainer. We also provide adapters for any object, so we don't end
 up with ComponentLookupErrors whenever encounter unknown objects.
 
-$Id$
+
 """
-from zope.interface import Interface, implements
-from zope.component import adapts
+
+from zope.interface import Interface, implementer
+from zope.component import adapter
 from zope.security import canAccess
 from zope.security.interfaces import Unauthorized
 from zope.location.interfaces import ILocation
@@ -33,10 +34,9 @@ from zope.app.tree.interfaces import IUniqueId, IChildObjects
 
 import zope.component.interfaces
 
-
+@implementer(IUniqueId)
+@adapter(Interface)
 class StubUniqueId(object):
-    implements(IUniqueId)
-    adapts(Interface)
 
     def __init__(self, context):
         self.context = context
@@ -45,9 +45,10 @@ class StubUniqueId(object):
         # this does not work for persistent objects
         return str(id(self.context))
 
+
+@implementer(IChildObjects)
+@adapter(Interface)
 class StubChildObjects(object):
-    implements(IChildObjects)
-    adapts(Interface)
 
     def __init__(self, context):
         pass
@@ -58,9 +59,9 @@ class StubChildObjects(object):
     def getChildObjects(self):
         return []
 
+@implementer(IUniqueId)
+@adapter(ILocation)
 class LocationUniqueId(object):
-    implements(IUniqueId)
-    adapts(ILocation)
 
     def __init__(self, context):
         self.context = context
@@ -75,9 +76,9 @@ class LocationUniqueId(object):
                     if parent.__name__]
         return '\\'.join(parents)
 
+@implementer(IChildObjects)
+@adapter(IReadContainer)
 class ContainerChildObjects(object):
-    implements(IChildObjects)
-    adapts(IReadContainer)
 
     def __init__(self, context):
         self.context = context
@@ -85,43 +86,33 @@ class ContainerChildObjects(object):
     def hasChildren(self):
         # make sure we check for access
         try:
-            lenght = bool(len(self.context))
-            if lenght > 0:
-                return True
-            else:
-                return False
-        except Unauthorized:
+            return bool(len(self.context))
+        except Unauthorized: # pragma: no cover
             return False
 
     def getChildObjects(self):
-        if self.hasChildren():
-            return self.context.values()
-        else:
-            return []
+        return list(self.context.values()) if self.hasChildren() else []
 
+
+@adapter(zope.component.interfaces.ISite)
 class ContainerSiteChildObjects(ContainerChildObjects):
     """Adapter for read containers which are sites as well. The site
     manager will be treated as just another child object.
     """
-    adapts(zope.component.interfaces.ISite)
 
     def hasChildren(self):
         if super(ContainerSiteChildObjects, self).hasChildren():
             return True
-        if self._canAccessSiteManager():
-            return True
-        else:
-            return False
+        return self._canAccessSiteManager()
 
     def getChildObjects(self):
-        if self.hasChildren():
-            values = super(ContainerSiteChildObjects, self).getChildObjects()
-            if self._canAccessSiteManager():
-                return [self.context.getSiteManager()] + list(values)
-            else:
-                return values
-        else:
+        if not self.hasChildren():
             return []
+
+        values = super(ContainerSiteChildObjects, self).getChildObjects()
+        if self._canAccessSiteManager():
+            return [self.context.getSiteManager()] + list(values)
+        return values
 
     def _canAccessSiteManager(self):
         try:
@@ -132,18 +123,15 @@ class ContainerSiteChildObjects(ContainerChildObjects):
             # registred views on the sitemanager which have other permission
             # then the __getitem__ method form the interface IReadContainer
             # in the LocalSiteManager.
-            # If this will be a problem in the future, we can add a 
-            # attribute to the SiteManager which we can give individual 
+            # If this will be a problem in the future, we can add a
+            # attribute to the SiteManager which we can give individual
             # permissions and check it via canAccess.
             sitemanager = self.context.getSiteManager()
             authorized = canAccess(sitemanager, '__getitem__')
-            if authorized:
-                return True
-            else:
-                return False
+            return bool(authorized)
         except zope.component.interfaces.ComponentLookupError:
             return False
-        except TypeError:
+        except TypeError: # pragma: no cover
             # we can't check unproxied objects, but unproxied objects
             # are public.
             return True

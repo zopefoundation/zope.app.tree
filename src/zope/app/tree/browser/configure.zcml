@@ -4,6 +4,7 @@
     xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="zope"
     >
+  <include package="zope.component" file="meta.zcml" />
 
   <!-- Register icons -->
 

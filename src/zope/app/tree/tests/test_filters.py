@@ -12,17 +12,15 @@
 #
 ##############################################################################
 """Test tree item filters.
-
-$Id$
 """
 import unittest
 
-from zope.interface import implements, directlyProvides
+from zope.interface import directlyProvides
 from zope.interface.interface import InterfaceClass
 
 from zope.app.tree.filters import OnlyInterfacesFilter, AllButInterfacesFilter
 
-from test_adapters import SampleContent
+from .test_adapters import SampleContent
 
 IRobot = InterfaceClass('IRobot', (), {})
 IHuman = InterfaceClass('IHuman', (), {})
@@ -44,7 +42,7 @@ class FilterTestCase(unittest.TestCase):
             'zapp':        (IHuman, ISpaceShipCaptain),
             'lur':         (IAlien, ISpaceShipCaptain),
             'kif':         IAlien,
-            }
+        }
         self.items = items = {}
         for name, iface in to_be_made.items():
             items[name] = obj = SampleContent()
@@ -55,41 +53,37 @@ class FilterTestCase(unittest.TestCase):
         result = [name for name, obj in items.items()
                   if filter.matches(obj)]
         for name in expected:
-            if name not in result:
-                return False
+            self.assertIn(name, result)
             result.remove(name)
-        if len(result):
-            return False
-        return True
+        self.assertEqual(len(result), 0)
 
     def test_only_interfaces_filter(self):
         filter = OnlyInterfacesFilter(IHuman)
-        self.assert_(self.filterAndCompare(filter,
-                                           ('fry', 'farnesworth', 'zapp')))
+        self.filterAndCompare(filter,
+                              ('fry', 'farnesworth', 'zapp'))
 
         # even if we add delivery boy to it, the list shouldn't change
         filter = OnlyInterfacesFilter(IHuman, IDeliveryBoy)
-        self.assert_(self.filterAndCompare(filter,
-                                           ('fry', 'farnesworth', 'zapp')))
+        self.filterAndCompare(filter,
+                              ('fry', 'farnesworth', 'zapp'))
 
         # Lur from Omicron Persei 8 is a starship captain too
         # (he also likes to eating hippies and destroying earth)
         filter = OnlyInterfacesFilter(IHuman, ISpaceShipCaptain)
-        self.assert_(
-            self.filterAndCompare(filter,
-                                  ('fry', 'farnesworth', 'zapp', 'lur')))
+        self.filterAndCompare(filter,
+                              ('fry', 'farnesworth', 'zapp', 'lur'))
 
     def test_all_but_interfaces_filter(self):
         # "death to all humans!"
         filter = AllButInterfacesFilter(IHuman)
-        self.assert_(self.filterAndCompare(filter, ('lur', 'kif', 'bender')))
+        self.filterAndCompare(filter, ('lur', 'kif', 'bender'))
 
         # and to all spaceship captains...
         filter = AllButInterfacesFilter(IHuman, ISpaceShipCaptain)
-        self.assert_(self.filterAndCompare(filter, ('kif', 'bender')))
+        self.filterAndCompare(filter, ('kif', 'bender'))
 
 def test_suite():
-    return unittest.makeSuite(FilterTestCase)
+    return unittest.defaultTestLoader.loadTestsFromName(__name__)
 
 if __name__ == '__main__':
     unittest.main(defaultTest='test_suite')

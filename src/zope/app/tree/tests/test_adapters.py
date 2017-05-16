@@ -12,12 +12,11 @@
 #
 ##############################################################################
 """Tree adapter tests
-
-$Id$
 """
+from __future__ import absolute_import
 import unittest
 
-from zope.interface import implements, directlyProvides
+from zope.interface import implementer, directlyProvides
 from zope.component.interfaces import ComponentLookupError
 from zope.security.checker import defineChecker
 from zope.security.checker import NamesChecker
@@ -28,8 +27,8 @@ import zope.traversing.testing
 from zope.container.interfaces import IReadContainer
 from zope.container.sample import SampleContainer
 from zope.container.contained import setitem
-from zope.app.testing.placelesssetup import PlacelessSetup
-from zope.app.testing import ztapi
+from zope.component.testing import PlacelessSetup
+from zope.app.tree.tests import basetest as ztapi
 
 from zope.app.tree.interfaces import IUniqueId, IChildObjects, \
      ITreeStateEncoder
@@ -43,8 +42,8 @@ import zope.component.interfaces
 class SampleContent(object):
     pass
 
+@implementer(zope.component.interfaces.ISite)
 class SampleSite(SampleContainer):
-    implements(zope.component.interfaces.ISite)
 
     def setSiteManager(self, sm):
         self._sm = sm
@@ -59,7 +58,7 @@ class SiteManagerStub(object):
     """This stub is used for to check the permission on __getitem__."""
 
     def __getitem__(key):
-        return 'nada'
+        raise NotImplementedError()
 
 class AdapterTestCase(PlacelessSetup, unittest.TestCase):
 
@@ -111,20 +110,20 @@ class AdapterTestCase(PlacelessSetup, unittest.TestCase):
         elzar = SampleContent()
         adapter = IUniqueId(farnesworth)
         adapter2 = IUniqueId(elzar)
-        self.failIf(adapter.getId() == 'farnesworth')
-        self.failIf(adapter2.getId() == 'elzar')
+        self.assertNotEqual(adapter.getId(), 'farnesworth')
+        self.assertNotEqual(adapter2.getId(), 'elzar')
         # test for uniqueness
-        self.failIf(adapter.getId() == adapter2.getId())
+        self.assertNotEqual(adapter.getId(), adapter2.getId())
 
         # test content child objects
         adapter = IChildObjects(elzar)
-        self.failIf(adapter.hasChildren())
-        self.assert_(len(adapter.getChildObjects()) == 0)
+        self.assertFalse(adapter.hasChildren())
+        self.assertEqual(len(adapter.getChildObjects()), 0)
         # test with acquired content
         bender = self.futurama['planetexpress']['bender']
         adapter = IChildObjects(bender)
-        self.failIf(adapter.hasChildren())
-        self.assert_(len(adapter.getChildObjects()) == 0)
+        self.assertFalse(adapter.hasChildren())
+        self.assertEqual(len(adapter.getChildObjects()), 0)
 
     def test_location_uniqueid(self):
         # futurama does not have a name
@@ -146,19 +145,21 @@ class AdapterTestCase(PlacelessSetup, unittest.TestCase):
         # test container with children
         futurama = self.futurama
         adapter = IChildObjects(futurama)
-        self.assert_(adapter.hasChildren())
-        self.assertEqual(adapter.getChildObjects(), futurama.values())
+        self.assertTrue(adapter.hasChildren())
+        self.assertEqual(list(adapter.getChildObjects()),
+                         list(futurama.values()))
 
         # test acquired container with children
         planetexpress = self.futurama['planetexpress']
         adapter = IChildObjects(planetexpress)
-        self.assert_(adapter.hasChildren())
-        self.assertEqual(adapter.getChildObjects(), planetexpress.values())
+        self.assertTrue(adapter.hasChildren())
+        self.assertEqual(adapter.getChildObjects(),
+                         list(planetexpress.values()))
 
         # test acquired container w/o children
         omicronpersei = self.futurama['omicronpersei']
         adapter = IChildObjects(omicronpersei)
-        self.failIf(adapter.hasChildren())
+        self.assertFalse(adapter.hasChildren())
         self.assertEqual(adapter.getChildObjects(), [])
 
     def test_container_site(self):
@@ -168,17 +169,18 @@ class AdapterTestCase(PlacelessSetup, unittest.TestCase):
 
         # test behaviour before and after setting a site
         adapter = IChildObjects(futurama)
-        self.assert_(adapter.hasChildren())
-        self.assertEqual(adapter.getChildObjects(), futurama.values())
+        self.assertTrue(adapter.hasChildren())
+        self.assertEqual(adapter.getChildObjects(),
+                         list(futurama.values()))
         futurama.setSiteManager(sm)
-        self.assert_(sm in adapter.getChildObjects())
+        self.assertIn(sm, adapter.getChildObjects())
 
         adapter = IChildObjects(omicronpersei)
-        self.failIf(adapter.hasChildren())
+        self.assertFalse(adapter.hasChildren())
         omicronpersei.setSiteManager(sm)
-        self.assert_(adapter.hasChildren())
+        self.assertTrue(adapter.hasChildren())
         self.assertEqual(adapter.getChildObjects(), [sm])
 
 
 def test_suite():
-    return unittest.makeSuite(AdapterTestCase)
+    return unittest.defaultTestLoader.loadTestsFromName(__name__)

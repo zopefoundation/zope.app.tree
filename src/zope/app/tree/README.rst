@@ -1,10 +1,10 @@
-========
-ZopeTree
-========
+==========
+ ZopeTree
+==========
 
 
 What is ZopeTree?
------------------
+=================
 
 ZopeTree is a port of Philipp's Zope2 product ZopeTree. ZopeTree was
 meant to be a light-weight and easy-to-use static tree implementation,
@@ -17,10 +17,10 @@ static tree generation is not in the core.
 
 
 How to use it
--------------
+=============
 
 Using the skin
-~~~~~~~~~~~~~~
+--------------
 
 ZopeTree comes with a pre-defined skin, StaticTree. It looks just
 like Zope3's default skin, Rotterdam, except that it displays a static
@@ -28,7 +28,7 @@ tree in the navigation box instead of the Javascript/XML based dynamic
 tree.
 
 Using predefined views on objects
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------------
 
 ZopeTree comes with several predefined views:
 
@@ -48,7 +48,7 @@ The example page template(s) in the browser package give an idea how
 to use these views for HTML templating.
 
 Customization
--------------
+=============
 
 The best way to customize ZopeTree is to define your own view for
 objects (usually '*'). If you want to use the cookie functionality,
@@ -80,7 +80,7 @@ the IObjectFindFilter interface (which is trivial)::
 
 
 License and Copyright
----------------------
+=====================
 
 This product is released under the terms of the `Zope Public License
 (ZPL) v2.1`__. See the `ZopePublicLicense.txt` file at the root of your
@@ -93,7 +93,7 @@ Copyright (c) 2004 Zope Corporation and Contributors
 
 
 Credits
--------
+=======
 
 Thanks to ZopeMag (http://zopemag.com) for sponsoring development of
 the original ZopeTree product.

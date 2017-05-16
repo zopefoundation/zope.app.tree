@@ -22,15 +22,14 @@ find machinery may be used with statictree just as well.
 Since commonly needed, this module provides two filters that filter by
 interface.
 
-$Id$
 """
-from zope.interface import implements
+from zope.interface import implementer
 from zope.container.interfaces import IObjectFindFilter
 
+@implementer(IObjectFindFilter)
 class OnlyInterfacesFilter(object):
     """Only match objects that implement one of the given interfaces.
     """
-    implements(IObjectFindFilter)
     only_interfaces = True
 
     def __init__(self, *filterby):

@@ -13,16 +13,15 @@
 ##############################################################################
 """Base Test Case for Tree Tests
 
-$Id$
 """
 import unittest
-from zope.interface import implements, Interface, Attribute
+from zope.interface import implementer, Interface, Attribute
 from zope.location import Location
-from zope.app.testing.placelesssetup import PlacelessSetup
-from zope.app.testing import ztapi
 
-from zope.app.tree.interfaces import IUniqueId, IChildObjects, \
-     ITreeStateEncoder
+from zope.component.testing import PlacelessSetup
+from zope import component as ztapi
+
+from zope.app.tree.interfaces import IUniqueId, IChildObjects, ITreeStateEncoder
 from zope.app.tree.node import Node
 from zope.app.tree.utils import TreeStateEncoder
 
@@ -32,19 +31,21 @@ class IItem(Interface):
     id = Attribute("id")
     children = Attribute("children")
 
-class Item(Location):
-    implements(IItem)
 
-    def __init__(self, id, children=[]):
+@implementer(IItem)
+class Item(Location):
+
+    def __init__(self, id, children=()):
         self.id = id
         self.children = children
         for child in children:
             child.__parent__ = self
 
+
+@implementer(IUniqueId)
 class ItemUniqueId(object):
     """Simplistic adapter from IItem to IUniqueId
     """
-    implements(IUniqueId)
 
     def __init__(self, context):
         self.id = context.id
@@ -52,10 +53,11 @@ class ItemUniqueId(object):
     def getId(self):
         return self.id
 
+
+@implementer(IChildObjects)
 class ItemChildObjects(object):
     """Simplistic adapter from IItem to IChildObjects
     """
-    implements(IChildObjects)
 
     def __init__(self, context):
         self.children = context.children
@@ -89,6 +91,22 @@ tree = ('a', [
            ) ]
        )
 
+def provideAdapter(required, provided, factory, name='', with_=()):
+    required = (required,) + with_
+
+    ztapi.provideAdapter(factory, required, provided, name=name)
+
+def provideUtility(provided, component):
+    ztapi.provideUtility(component, provided)
+
+from zope.publisher.interfaces.browser import IDefaultBrowserLayer
+
+def browserView(for_, name, factory, layer=IDefaultBrowserLayer,
+                providing=Interface):
+    """Define a global browser view
+    """
+    provideAdapter(for_, providing, factory, name, (layer,))
+
 class BaseTestCase(PlacelessSetup, unittest.TestCase):
     """Base class for most static tree tests
     """
@@ -98,9 +116,12 @@ class BaseTestCase(PlacelessSetup, unittest.TestCase):
     def setUp(self):
         super(BaseTestCase, self).setUp()
         # provide necessary components
-        ztapi.provideAdapter(IItem, IUniqueId, ItemUniqueId)
-        ztapi.provideAdapter(IItem, IChildObjects, ItemChildObjects)
-        ztapi.provideUtility(ITreeStateEncoder, TreeStateEncoder())
+        ztapi.provideAdapter(ItemUniqueId, (IItem,), IUniqueId)
+        ztapi.provideAdapter(ItemChildObjects, (IItem,), IChildObjects)
+        ztapi.provideUtility(TreeStateEncoder(), ITreeStateEncoder)
+        self.items = {}
+        self.root_obj = None
+        self.root_node = None
 
     def makeItems(self):
         # this mapping will provide shortcuts to each object
