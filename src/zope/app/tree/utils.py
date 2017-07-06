@@ -23,7 +23,9 @@ from zope.app.tree.interfaces import ITreeStateEncoder
 
 @implementer(ITreeStateEncoder)
 class TreeStateEncoder(object):
-    """Encodes tree state
+    """Encodes tree state.
+
+    Implements :class:`zope.app.tree.interfaces.ITreeStateEncoder`.
 
     >>> expanded_nodes = ['a', 'c', 'foobar']
     >>> encoder = TreeStateEncoder()

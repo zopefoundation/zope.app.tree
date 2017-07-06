@@ -115,8 +115,8 @@ class NodeTestCase(BaseTestCase):
         node = bdict['node']
         self.assertEqual(bdict['row-state'], [])
         self.assertEqual(node.getId(), 'b')
-        self.assert_(node.hasChildren())
-        self.assert_(node.context is self.items['b'])
+        self.assertTrue(node.hasChildren())
+        self.assertIs(node.context, self.items['b'])
 
     def test_depth(self):
         expanded = ['a', 'c', 'f']

@@ -11,14 +11,15 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""Object adapters
+"""
+Object adapters
 
 This module contains adapters necessary to use common objects with
-statictree. The most prominent ones are those for ILocation and
-IContainer. We also provide adapters for any object, so we don't end
-up with ComponentLookupErrors whenever encounter unknown objects.
-
-
+statictree. The most prominent ones are those for
+:class:`zope.location.interfaces.ILocation` and
+:class:`zope.container.interfaces.IReadContainer`. We also provide
+adapters for any object, so we don't end up with ComponentLookupErrors
+whenever encounter unknown objects.
 """
 
 from zope.interface import Interface, implementer
@@ -37,6 +38,9 @@ import zope.component.interfaces
 @implementer(IUniqueId)
 @adapter(Interface)
 class StubUniqueId(object):
+    """
+    Implements :class:`~.IUniqueId` for any object.
+    """
 
     def __init__(self, context):
         self.context = context
@@ -49,6 +53,9 @@ class StubUniqueId(object):
 @implementer(IChildObjects)
 @adapter(Interface)
 class StubChildObjects(object):
+    """
+    Implements :class:`~.IChildObjects` for any object.
+    """
 
     def __init__(self, context):
         pass
@@ -62,6 +69,9 @@ class StubChildObjects(object):
 @implementer(IUniqueId)
 @adapter(ILocation)
 class LocationUniqueId(object):
+    """
+    Implements :class:`~.IUniqueId` for locations.
+    """
 
     def __init__(self, context):
         self.context = context
@@ -79,6 +89,9 @@ class LocationUniqueId(object):
 @implementer(IChildObjects)
 @adapter(IReadContainer)
 class ContainerChildObjects(object):
+    """
+    Implements :class:`~.IChildObjects` for readable containers.
+    """
 
     def __init__(self, context):
         self.context = context
@@ -96,8 +109,11 @@ class ContainerChildObjects(object):
 
 @adapter(zope.component.interfaces.ISite)
 class ContainerSiteChildObjects(ContainerChildObjects):
-    """Adapter for read containers which are sites as well. The site
-    manager will be treated as just another child object.
+    """
+    Adapter for read containers which are
+    :class:`zope.component.interfaces.ISite` as well.
+
+    The site manager will be treated as just another child object.
     """
 
     def hasChildren(self):

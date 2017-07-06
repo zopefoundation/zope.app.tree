@@ -35,6 +35,9 @@ except ImportError: # pragma: no cover
     pass
 
 class StatefulTreeView(BrowserView):
+    """
+    Basic stateful tree.
+    """
 
     def statefulTree(self, root=None, filter=None, tree_state=None):
         """Build a tree with tree state information from a request.

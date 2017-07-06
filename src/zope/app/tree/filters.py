@@ -11,17 +11,18 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""Filters
+"""
+Filters
 
 Child objects can be filtered out by certain criteria which are
 defined by a filter. Writing your own filter should be very easy. All
-you have to implement is the IObjectFindFilter interface from the
-zope.app.interfaces.find package. Already existing filters for the
-find machinery may be used with statictree just as well.
+you have to implement is the
+:class:`zope.container.interfaces.IObjectFindFilter` interface.
+Already existing filters for the find machinery may be used with
+statictree just as well.
 
 Since commonly needed, this module provides two filters that filter by
 interface.
-
 """
 from zope.interface import implementer
 from zope.container.interfaces import IObjectFindFilter
