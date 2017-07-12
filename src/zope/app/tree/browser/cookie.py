@@ -15,8 +15,7 @@
 
 """
 import zope.traversing.api
-from zope.traversing.interfaces import IContainmentRoot
-from zope.component.interfaces import IComponentLookup
+
 
 from zope.container.interfaces import IContainer
 
@@ -74,6 +73,6 @@ class CookieTreeView(StatefulTreeView):
         vh = self.request.getVirtualHostRoot()
         if vh:
             return self.folderTree(vh)
-        else:
-            root = zope.traversing.api.getRoot(self.context)
-            return self.folderTree(root)
+
+        root = zope.traversing.api.getRoot(self.context)
+        return self.folderTree(root)

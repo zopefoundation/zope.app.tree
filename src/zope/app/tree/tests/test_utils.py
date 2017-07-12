@@ -33,4 +33,5 @@ def test_suite():
     return unittest.TestSuite((
         unittest.defaultTestLoader.loadTestsFromName(__name__),
         doctest.DocTestSuite('zope.app.tree.utils'),
+        doctest.DocFileSuite('../README.rst'),
     ))
