@@ -7,9 +7,9 @@
 
 - Add support for Python 3.7 and 3.8.
 
-- Add support for PyPy 3.5.
-
 - Drop support for Python 3.4.
+
+- Update PyPy versions.
 
 
 4.0.0 (2017-05-16)
