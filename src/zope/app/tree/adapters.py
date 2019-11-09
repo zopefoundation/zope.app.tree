@@ -136,7 +136,7 @@ class ContainerSiteChildObjects(ContainerChildObjects):
             # without permissions. But this does not mean we can access it
             # Right now we check the __getitem__ method on the sitemamanger
             # but this means we don't show the ++etc++site link if we have
-            # registred views on the sitemanager which have other permission
+            # registered views on the sitemanager which have other permission
             # then the __getitem__ method form the interface IReadContainer
             # in the LocalSiteManager.
             # If this will be a problem in the future, we can add a
