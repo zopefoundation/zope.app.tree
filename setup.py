@@ -36,8 +36,6 @@ setup(name='zope.app.tree',
       long_description=(
           read('README.rst')
           + '\n\n' +
-          read('src', 'zope', 'app', 'tree', 'README.rst')
-          + '\n\n' +
           read('CHANGES.rst')
       ),
       keywords="zope3 tree static zpt",
