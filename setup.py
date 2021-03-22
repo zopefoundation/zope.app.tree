@@ -22,9 +22,11 @@
 import os
 from setuptools import setup, find_packages
 
+
 def read(*rnames):
     with open(os.path.join(os.path.dirname(__file__), *rnames)) as f:
         return f.read()
+
 
 setup(name='zope.app.tree',
       version='4.1.0.dev0',
@@ -52,6 +54,7 @@ setup(name='zope.app.tree',
           'Programming Language :: Python :: 3.6',
           'Programming Language :: Python :: 3.7',
           'Programming Language :: Python :: 3.8',
+          'Programming Language :: Python :: 3.9',
           'Programming Language :: Python :: Implementation :: CPython',
           'Programming Language :: Python :: Implementation :: PyPy',
           'Natural Language :: English',
@@ -76,7 +79,12 @@ setup(name='zope.app.tree',
           ],
           'skin': [
               'zope.app.rotterdam',
-          ]
+          ],
+          'docs': [
+              'Sphinx',
+              'repoze.sphinx.autointerface',
+              'sphinx_rtd_theme',
+          ],
       },
       install_requires=[
           'setuptools',
@@ -91,4 +99,4 @@ setup(name='zope.app.tree',
       ],
       include_package_data=True,
       zip_safe=False,
-)
+      )

@@ -23,16 +23,20 @@ from zope.publisher.browser import BrowserView
 from zope.app.tree.interfaces import ITreeStateEncoder
 from zope.app.tree.node import Node
 
+
 class IStaticTreeLayer(IBrowserRequest):
     """Layer that we can register our own navigation macro for."""
 
-try: # we try not to depend on zope.app.rotterdam hardly
+
+try:  # we try not to depend on zope.app.rotterdam hardly
     from zope.app.rotterdam import Rotterdam
+
     class IStaticTreeSkin(IStaticTreeLayer, Rotterdam):
         """Skin based on Rotterdam that includes the static tree
         navigation macro."""
-except ImportError: # pragma: no cover
+except ImportError:  # pragma: no cover
     pass
+
 
 class StatefulTreeView(BrowserView):
     """

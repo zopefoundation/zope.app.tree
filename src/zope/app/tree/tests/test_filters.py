@@ -29,6 +29,7 @@ ISpaceShipCaptain = InterfaceClass('ISpaceShipCaptain', (), {})
 IDeliveryBoy = InterfaceClass('IDeliveryBoy', (IHuman,), {})
 IProfessor = InterfaceClass('IProfessor', (IHuman,), {})
 
+
 class FilterTestCase(unittest.TestCase):
 
     def setUp(self):
@@ -36,12 +37,12 @@ class FilterTestCase(unittest.TestCase):
 
     def makeObjects(self):
         to_be_made = {
-            'bender':      IRobot,
-            'fry':         IDeliveryBoy,
+            'bender': IRobot,
+            'fry': IDeliveryBoy,
             'farnesworth': IProfessor,
-            'zapp':        (IHuman, ISpaceShipCaptain),
-            'lur':         (IAlien, ISpaceShipCaptain),
-            'kif':         IAlien,
+            'zapp': (IHuman, ISpaceShipCaptain),
+            'lur': (IAlien, ISpaceShipCaptain),
+            'kif': IAlien,
         }
         self.items = items = {}
         for name, iface in to_be_made.items():
@@ -82,8 +83,6 @@ class FilterTestCase(unittest.TestCase):
         filter = AllButInterfacesFilter(IHuman, ISpaceShipCaptain)
         self.filterAndCompare(filter, ('kif', 'bender'))
 
+
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
-
-if __name__ == '__main__':
-    unittest.main(defaultTest='test_suite')

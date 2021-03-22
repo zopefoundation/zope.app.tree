@@ -23,11 +23,14 @@ class TestUtils(unittest.TestCase):
 
     def test_b2a_long(self):
         long_s = b'b' * 59
-        expected = 'YmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmI_'
+        expected = (
+            'YmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJi'
+            'YmJiYmJiYmJiYmI_')
         translated = utils.b2a(long_s)
         self.assertEqual(translated, expected)
 
         self.assertEqual(long_s, utils.a2b(translated))
+
 
 def test_suite():
     return unittest.TestSuite((

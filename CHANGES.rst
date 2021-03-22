@@ -5,7 +5,7 @@
 4.1.0 (unreleased)
 ==================
 
-- Add support for Python 3.7 and 3.8.
+- Add support for Python 3.7, 3.8 and 3.9.
 
 - Add support for ``zope.component >= 5``.
 

@@ -27,6 +27,7 @@ interface.
 from zope.interface import implementer
 from zope.container.interfaces import IObjectFindFilter
 
+
 @implementer(IObjectFindFilter)
 class OnlyInterfacesFilter(object):
     """Only match objects that implement one of the given interfaces.
@@ -42,6 +43,7 @@ class OnlyInterfacesFilter(object):
             if iface.providedBy(obj):
                 return self.only_interfaces
         return not self.only_interfaces
+
 
 class AllButInterfacesFilter(OnlyInterfacesFilter):
     """Match only objects that do not implement one of the given

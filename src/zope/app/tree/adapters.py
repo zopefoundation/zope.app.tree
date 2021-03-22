@@ -68,6 +68,7 @@ class StubChildObjects(object):
     def getChildObjects(self):
         return []
 
+
 @implementer(IUniqueId)
 @adapter(ILocation)
 class LocationUniqueId(object):
@@ -88,6 +89,7 @@ class LocationUniqueId(object):
                     if parent.__name__]
         return '\\'.join(parents)
 
+
 @implementer(IChildObjects)
 @adapter(IReadContainer)
 class ContainerChildObjects(object):
@@ -102,7 +104,7 @@ class ContainerChildObjects(object):
         # make sure we check for access
         try:
             return bool(len(self.context))
-        except Unauthorized: # pragma: no cover
+        except Unauthorized:  # pragma: no cover
             return False
 
     def getChildObjects(self):
@@ -149,7 +151,7 @@ class ContainerSiteChildObjects(ContainerChildObjects):
             return bool(authorized)
         except zope.interface.interfaces.ComponentLookupError:
             return False
-        except TypeError: # pragma: no cover
+        except TypeError:  # pragma: no cover
             # we can't check unproxied objects, but unproxied objects
             # are public.
             return True
