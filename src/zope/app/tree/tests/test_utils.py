@@ -23,9 +23,7 @@ class TestUtils(unittest.TestCase):
 
     def test_b2a_long(self):
         long_s = b'b' * 59
-        expected = (
-            'YmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJi'
-            'YmJiYmJiYmJiYmI_')
+        expected = 'YmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmI_'  # noqa: E501 line too long
         translated = utils.b2a(long_s)
         self.assertEqual(translated, expected)
 

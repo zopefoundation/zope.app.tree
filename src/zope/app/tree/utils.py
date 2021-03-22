@@ -15,7 +15,6 @@
 
 """
 from binascii import b2a_base64, a2b_base64
-__docformat__ = 'restructuredtext'
 
 import zlib
 
