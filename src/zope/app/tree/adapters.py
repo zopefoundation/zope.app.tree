@@ -34,6 +34,8 @@ from zope.container.interfaces import IReadContainer
 from zope.app.tree.interfaces import IUniqueId, IChildObjects
 
 import zope.component.interfaces
+import zope.interface.interfaces
+
 
 @implementer(IUniqueId)
 @adapter(Interface)
@@ -145,7 +147,7 @@ class ContainerSiteChildObjects(ContainerChildObjects):
             sitemanager = self.context.getSiteManager()
             authorized = canAccess(sitemanager, '__getitem__')
             return bool(authorized)
-        except zope.component.interfaces.ComponentLookupError:
+        except zope.interface.interfaces.ComponentLookupError:
             return False
         except TypeError: # pragma: no cover
             # we can't check unproxied objects, but unproxied objects

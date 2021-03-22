@@ -17,7 +17,7 @@ from __future__ import absolute_import
 import unittest
 
 from zope.interface import implementer, directlyProvides
-from zope.component.interfaces import ComponentLookupError
+from zope.interface.interfaces import ComponentLookupError
 from zope.security.checker import defineChecker
 from zope.security.checker import NamesChecker
 from zope.traversing.interfaces import IContainmentRoot

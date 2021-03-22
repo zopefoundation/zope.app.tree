@@ -27,8 +27,8 @@ def read(*rnames):
         return f.read()
 
 setup(name='zope.app.tree',
-      version='5.0.0.dev0',
-      author='Zope Corporation and Contributors',
+      version='4.1.0.dev0',
+      author='Zope Foundation and Contributors',
       author_email='zope-dev@zope.org',
       description='Static Tree Implementation',
       long_description=(
