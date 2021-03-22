@@ -31,6 +31,7 @@ from zope.app.tree.browser import StatefulTreeView
 from zope.app.tree.browser.cookie import CookieTreeView
 from zope.app.tree.tests.basetest import BaseTestCase
 
+
 class StatefulTreeViewTest(BaseTestCase):
 
     def setUp(self):
@@ -41,6 +42,7 @@ class StatefulTreeViewTest(BaseTestCase):
         self.request = None
 
     # TODO: test stateful tree view
+
 
 class CookieTreeViewTest(StatefulTreeViewTest):
 
@@ -61,7 +63,7 @@ class CookieTreeViewTest(StatefulTreeViewTest):
     def test_cookie_tree_pre_expanded(self):
         request = self.makeRequestWithVar()
         view = getMultiAdapter((self.root_obj, request),
-                                    name='cookie_tree')
+                               name='cookie_tree')
         view.cookieTree()
         self.assertTrue(self.root_node.expanded)
         for node in self.root_node.getFlatNodes():
@@ -104,6 +106,7 @@ class CookieTreeViewTest(StatefulTreeViewTest):
         request.getVirtualHostRoot = lambda: self.items['a']
         self.assertEqual(view.virtualHostTree().getId(), 'a')
 
+
 class TestConfiguration(BaseTestCase):
 
     def test_configuration(self):
@@ -114,8 +117,6 @@ class TestConfiguration(BaseTestCase):
         </configure>
         """)
 
+
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
-
-if __name__ == '__main__':
-    unittest.main(defaultTest='test_suite')

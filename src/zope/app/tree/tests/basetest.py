@@ -14,6 +14,7 @@
 """Base Test Case for Tree Tests
 
 """
+from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 import unittest
 from zope.interface import implementer, Interface, Attribute
 from zope.location import Location
@@ -21,9 +22,11 @@ from zope.location import Location
 from zope.component.testing import PlacelessSetup
 from zope import component as ztapi
 
-from zope.app.tree.interfaces import IUniqueId, IChildObjects, ITreeStateEncoder
+from zope.app.tree.interfaces import ITreeStateEncoder
+from zope.app.tree.interfaces import IUniqueId, IChildObjects
 from zope.app.tree.node import Node
 from zope.app.tree.utils import TreeStateEncoder
+
 
 class IItem(Interface):
     """Simple object that can have an id and a set of children
@@ -70,6 +73,8 @@ class ItemChildObjects(object):
 
 # function used to convert a set of nested tuples to items and
 # children items.
+
+
 def make_item_from_tuple(item_tuple, dict):
     children = []
     if len(item_tuple) > 1:
@@ -79,33 +84,36 @@ def make_item_from_tuple(item_tuple, dict):
     dict[item_tuple[0]] = item
     return item
 
+
 tree = ('a', [
-           ('b', [
-               ('d',), ('e',)
-               ]),
-           ('c', [
-               ('f', [
-                   ('h',), ('i',)
-                   ]),
-               ('g')]
-           ) ]
-       )
+    ('b', [
+        ('d',), ('e',)
+    ]),
+    ('c', [
+        ('f', [
+            ('h',), ('i',)
+        ]),
+        ('g')]
+     )]
+)
+
 
 def provideAdapter(required, provided, factory, name='', with_=()):
     required = (required,) + with_
 
     ztapi.provideAdapter(factory, required, provided, name=name)
 
+
 def provideUtility(provided, component):
     ztapi.provideUtility(component, provided)
 
-from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 
 def browserView(for_, name, factory, layer=IDefaultBrowserLayer,
                 providing=Interface):
     """Define a global browser view
     """
     provideAdapter(for_, providing, factory, name, (layer,))
+
 
 class BaseTestCase(PlacelessSetup, unittest.TestCase):
     """Base class for most static tree tests

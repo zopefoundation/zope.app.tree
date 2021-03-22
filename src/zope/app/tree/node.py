@@ -32,7 +32,6 @@ class Node(object):
     Especially, it will only create child nodes when necessary.
     """
 
-
     __slots__ = (
         'context', 'expanded', 'filter', '_id', '_expanded_nodes',
         '_child_nodes', '_child_objects_adapter',
@@ -51,7 +50,8 @@ class Node(object):
 
     def __repr__(self):
         c = self.__class__
-        return "<%s.%s id='%s' at %s>" % (c.__module__, c.__name__, self._id, id(self))
+        return "<%s.%s id='%s' at %s>" % (
+            c.__module__, c.__name__, self._id, id(self))
 
     def _create_child_nodes(self):
         """Create child nodes and save the result so we don't have
@@ -133,7 +133,7 @@ class Node(object):
                 # if the node is already expanded, the toggle would
                 # collapse it
                 expanded_nodes.remove(id)
-                row_state.append(not node is childNodes[-1])
+                row_state.append(node is not childNodes[-1])
             else:
                 # if it isn't expanded, the toggle would expand it
                 expanded_nodes += [id]
@@ -143,7 +143,7 @@ class Node(object):
                 'tree-state': encoder.encodeTreeState(expanded_nodes),
                 'row-state': row_state[:-1],
                 'last-level-node': node is childNodes[-1],
-                }
+            }
             nodes.append(flatdict)
             child_nodes, maxdepth = node.getFlatDicts(maxdepth, row_state)
             nodes += child_nodes

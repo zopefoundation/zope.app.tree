@@ -18,6 +18,7 @@
 from zope.interface import Interface, Attribute
 from zope.schema import Bool, Int
 
+
 class IUniqueId(Interface):
     """Interface that promises to return a unique id within a
     tree.
@@ -30,6 +31,7 @@ class IUniqueId(Interface):
     def getId():
         """Return a string containing a unique id within a tree
         """
+
 
 class IChildObjects(Interface):
     """Interface providing methods to retrieve child objects so they
@@ -44,6 +46,7 @@ class IChildObjects(Interface):
         """Return a sequence of child objects
         """
 
+
 class INode(IUniqueId, IChildObjects):
     """A node in the tree
     """
@@ -55,12 +58,12 @@ class INode(IUniqueId, IChildObjects):
     depth = Int(
         title=u"Depth",
         description=u"The positional depth of this node in the tree.",
-        )
+    )
 
     expanded = Bool(
         title=u"Expanded",
         description=u"True if this node is expanded.",
-        )
+    )
 
     def expand(recursive=False):
         """Expand this node.
@@ -109,6 +112,7 @@ class INode(IUniqueId, IChildObjects):
         This method is intended for output formats that cannot handle nested
         values easily. An example here are Page Templates.
         """
+
 
 class ITreeStateEncoder(Interface):
     """This utility can encode and decode the ids of expanded nodes

@@ -17,7 +17,7 @@ from __future__ import absolute_import
 import unittest
 
 from zope.interface import implementer, directlyProvides
-from zope.component.interfaces import ComponentLookupError
+from zope.interface.interfaces import ComponentLookupError
 from zope.security.checker import defineChecker
 from zope.security.checker import NamesChecker
 from zope.traversing.interfaces import IContainmentRoot
@@ -31,16 +31,17 @@ from zope.component.testing import PlacelessSetup
 from zope.app.tree.tests import basetest as ztapi
 
 from zope.app.tree.interfaces import IUniqueId, IChildObjects, \
-     ITreeStateEncoder
+    ITreeStateEncoder
 from zope.app.tree.utils import TreeStateEncoder
 from zope.app.tree.adapters import StubUniqueId, StubChildObjects, \
-     LocationUniqueId, ContainerChildObjects, ContainerSiteChildObjects
+    LocationUniqueId, ContainerChildObjects, ContainerSiteChildObjects
 
 import zope.component.interfaces
 
 
 class SampleContent(object):
     pass
+
 
 @implementer(zope.component.interfaces.ISite)
 class SampleSite(SampleContainer):
@@ -54,11 +55,13 @@ class SampleSite(SampleContainer):
         except AttributeError:
             raise ComponentLookupError
 
+
 class SiteManagerStub(object):
     """This stub is used for to check the permission on __getitem__."""
 
     def __getitem__(key):
         raise NotImplementedError()
+
 
 class AdapterTestCase(PlacelessSetup, unittest.TestCase):
 
@@ -69,7 +72,10 @@ class AdapterTestCase(PlacelessSetup, unittest.TestCase):
         ztapi.provideAdapter(None, IUniqueId, StubUniqueId)
         ztapi.provideAdapter(None, IChildObjects, StubChildObjects)
         ztapi.provideAdapter(ILocation, IUniqueId, LocationUniqueId)
-        ztapi.provideAdapter(IReadContainer, IChildObjects, ContainerChildObjects)
+        ztapi.provideAdapter(
+            IReadContainer,
+            IChildObjects,
+            ContainerChildObjects)
         ztapi.provideAdapter(zope.component.interfaces.ISite,
                              IChildObjects, ContainerSiteChildObjects)
         ztapi.provideUtility(ITreeStateEncoder, TreeStateEncoder())

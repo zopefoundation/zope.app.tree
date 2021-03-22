@@ -14,12 +14,13 @@
 """Static tree utilities
 
 """
-__docformat__ = 'restructuredtext'
+from binascii import b2a_base64, a2b_base64
 
 import zlib
 
 from zope.interface import implementer
 from zope.app.tree.interfaces import ITreeStateEncoder
+
 
 @implementer(ITreeStateEncoder)
 class TreeStateEncoder(object):
@@ -56,7 +57,7 @@ class TreeStateEncoder(object):
 # ZTUtils.Tree module
 #
 
-from binascii import b2a_base64, a2b_base64
+
 try:
     from string import translate, maketrans
 except ImportError:
@@ -65,6 +66,7 @@ except ImportError:
 
 a2u_map = maketrans('+/=', '-._')
 u2a_map = maketrans('-._', '+/=')
+
 
 def b2a(s):
     '''Encode a value as a cookie- and url-safe string.
@@ -81,6 +83,7 @@ def b2a(s):
     if not isinstance(encoded, str):
         encoded = encoded.decode('ascii')
     return translate(encoded, a2u_map)
+
 
 def a2b(s):
     '''Decode a b2a-encoded string.'''
