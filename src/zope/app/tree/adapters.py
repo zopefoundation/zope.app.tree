@@ -39,7 +39,7 @@ from zope.app.tree.interfaces import IUniqueId
 
 @implementer(IUniqueId)
 @adapter(Interface)
-class StubUniqueId(object):
+class StubUniqueId:
     """
     Implements :class:`~.IUniqueId` for any object.
     """
@@ -54,7 +54,7 @@ class StubUniqueId(object):
 
 @implementer(IChildObjects)
 @adapter(Interface)
-class StubChildObjects(object):
+class StubChildObjects:
     """
     Implements :class:`~.IChildObjects` for any object.
     """
@@ -71,7 +71,7 @@ class StubChildObjects(object):
 
 @implementer(IUniqueId)
 @adapter(ILocation)
-class LocationUniqueId(object):
+class LocationUniqueId:
     """
     Implements :class:`~.IUniqueId` for locations.
     """
@@ -92,7 +92,7 @@ class LocationUniqueId(object):
 
 @implementer(IChildObjects)
 @adapter(IReadContainer)
-class ContainerChildObjects(object):
+class ContainerChildObjects:
     """
     Implements :class:`~.IChildObjects` for readable containers.
     """
@@ -121,7 +121,7 @@ class ContainerSiteChildObjects(ContainerChildObjects):
     """
 
     def hasChildren(self):
-        if super(ContainerSiteChildObjects, self).hasChildren():
+        if super().hasChildren():
             return True
         return self._canAccessSiteManager()
 
@@ -129,7 +129,7 @@ class ContainerSiteChildObjects(ContainerChildObjects):
         if not self.hasChildren():
             return []
 
-        values = super(ContainerSiteChildObjects, self).getChildObjects()
+        values = super().getChildObjects()
         if self._canAccessSiteManager():
             return [self.context.getSiteManager()] + list(values)
         return values

@@ -58,13 +58,13 @@ class INode(IUniqueId, IChildObjects):
         """)
 
     depth = Int(
-        title=u"Depth",
-        description=u"The positional depth of this node in the tree.",
+        title="Depth",
+        description="The positional depth of this node in the tree.",
     )
 
     expanded = Bool(
-        title=u"Expanded",
-        description=u"True if this node is expanded.",
+        title="Expanded",
+        description="True if this node is expanded.",
     )
 
     def expand(recursive=False):

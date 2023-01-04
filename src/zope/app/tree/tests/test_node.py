@@ -14,7 +14,6 @@
 """Test tree node code.
 
 """
-from __future__ import absolute_import
 
 import unittest
 
@@ -26,7 +25,7 @@ from zope.app.tree.tests.basetest import BaseTestCase
 
 
 @implementer(IObjectFindFilter)
-class FilterByObject(object):
+class FilterByObject:
     """Simple filter that filters out any objects that wasn't passed
     in as a valid object before
     """
@@ -49,7 +48,7 @@ class FilterByObject(object):
 class NodeTestCase(BaseTestCase):
 
     def setUp(self):
-        super(NodeTestCase, self).setUp()
+        super().setUp()
         self.makeItems()
 
     def test_expand_collapse(self):

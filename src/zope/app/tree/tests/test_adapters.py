@@ -13,7 +13,6 @@
 ##############################################################################
 """Tree adapter tests
 """
-from __future__ import absolute_import
 
 import unittest
 
@@ -43,7 +42,7 @@ from zope.app.tree.tests import basetest as ztapi
 from zope.app.tree.utils import TreeStateEncoder
 
 
-class SampleContent(object):
+class SampleContent:
     pass
 
 
@@ -60,7 +59,7 @@ class SampleSite(SampleContainer):
             raise ComponentLookupError
 
 
-class SiteManagerStub(object):
+class SiteManagerStub:
     """This stub is used for to check the permission on __getitem__."""
 
     def __getitem__(key):
@@ -70,7 +69,7 @@ class SiteManagerStub(object):
 class AdapterTestCase(PlacelessSetup, unittest.TestCase):
 
     def setUp(self):
-        super(AdapterTestCase, self).setUp()
+        super().setUp()
         # provide necessary components
         zope.traversing.testing.setUp()
         ztapi.provideAdapter(None, IUniqueId, StubUniqueId)

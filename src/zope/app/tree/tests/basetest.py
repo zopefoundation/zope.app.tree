@@ -49,7 +49,7 @@ class Item(Location):
 
 
 @implementer(IUniqueId)
-class ItemUniqueId(object):
+class ItemUniqueId:
     """Simplistic adapter from IItem to IUniqueId
     """
 
@@ -61,7 +61,7 @@ class ItemUniqueId(object):
 
 
 @implementer(IChildObjects)
-class ItemChildObjects(object):
+class ItemChildObjects:
     """Simplistic adapter from IItem to IChildObjects
     """
 
@@ -125,7 +125,7 @@ class BaseTestCase(PlacelessSetup, unittest.TestCase):
     expanded_nodes = ['a', 'c']
 
     def setUp(self):
-        super(BaseTestCase, self).setUp()
+        super().setUp()
         # provide necessary components
         ztapi.provideAdapter(ItemUniqueId, (IItem,), IUniqueId)
         ztapi.provideAdapter(ItemChildObjects, (IItem,), IChildObjects)

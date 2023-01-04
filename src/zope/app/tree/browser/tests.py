@@ -36,7 +36,7 @@ from zope.app.tree.utils import TreeStateEncoder
 class StatefulTreeViewTest(BaseTestCase):
 
     def setUp(self):
-        super(StatefulTreeViewTest, self).setUp()
+        super().setUp()
         self.makeItems()
         # provide the view for all objects (None)
         ztapi.browserView(None, 'stateful_tree', StatefulTreeView)
@@ -48,7 +48,7 @@ class StatefulTreeViewTest(BaseTestCase):
 class CookieTreeViewTest(StatefulTreeViewTest):
 
     def setUp(self):
-        super(CookieTreeViewTest, self).setUp()
+        super().setUp()
         ztapi.browserView(None, 'cookie_tree', CookieTreeView)
         zope.component.provideAdapter(LocationPhysicallyLocatable,
                                       (zope.interface.Interface,))

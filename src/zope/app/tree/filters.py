@@ -29,7 +29,7 @@ from zope.interface import implementer
 
 
 @implementer(IObjectFindFilter)
-class OnlyInterfacesFilter(object):
+class OnlyInterfacesFilter:
     """Only match objects that implement one of the given interfaces.
     """
     only_interfaces = True

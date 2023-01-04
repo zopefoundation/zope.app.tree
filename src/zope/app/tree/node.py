@@ -24,7 +24,7 @@ from zope.app.tree.interfaces import IUniqueId
 
 
 @implementer(INode)
-class Node(object):
+class Node:
     """A tree node
 
     This object represents a node in the tree. It wraps the actual
@@ -53,7 +53,7 @@ class Node(object):
 
     def __repr__(self):
         c = self.__class__
-        return "<%s.%s id='%s' at %s>" % (
+        return "<{}.{} id='{}' at {}>".format(
             c.__module__, c.__name__, self._id, id(self))
 
     def _create_child_nodes(self):
