@@ -14,16 +14,19 @@
 """Base Test Case for Tree Tests
 
 """
-from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 import unittest
-from zope.interface import implementer, Interface, Attribute
-from zope.location import Location
 
 from zope.component.testing import PlacelessSetup
-from zope import component as ztapi
+from zope.interface import Attribute
+from zope.interface import Interface
+from zope.interface import implementer
+from zope.location import Location
+from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 
+from zope import component as ztapi
+from zope.app.tree.interfaces import IChildObjects
 from zope.app.tree.interfaces import ITreeStateEncoder
-from zope.app.tree.interfaces import IUniqueId, IChildObjects
+from zope.app.tree.interfaces import IUniqueId
 from zope.app.tree.node import Node
 from zope.app.tree.utils import TreeStateEncoder
 

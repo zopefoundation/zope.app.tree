@@ -16,8 +16,11 @@
 """
 from zope.component import getUtility
 from zope.interface import implementer
-from zope.app.tree.interfaces import INode, IUniqueId, IChildObjects
+
+from zope.app.tree.interfaces import IChildObjects
+from zope.app.tree.interfaces import INode
 from zope.app.tree.interfaces import ITreeStateEncoder
+from zope.app.tree.interfaces import IUniqueId
 
 
 @implementer(INode)

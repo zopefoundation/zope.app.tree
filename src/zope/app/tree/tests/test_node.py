@@ -15,11 +15,14 @@
 
 """
 from __future__ import absolute_import
+
 import unittest
-from zope.app.tree.tests.basetest import BaseTestCase
-from zope.interface import implementer
+
 from zope.container.interfaces import IObjectFindFilter
+from zope.interface import implementer
+
 from zope.app.tree.node import Node
+from zope.app.tree.tests.basetest import BaseTestCase
 
 
 @implementer(IObjectFindFilter)

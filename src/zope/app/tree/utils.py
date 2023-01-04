@@ -14,11 +14,12 @@
 """Static tree utilities
 
 """
-from binascii import b2a_base64, a2b_base64
-
 import zlib
+from binascii import a2b_base64
+from binascii import b2a_base64
 
 from zope.interface import implementer
+
 from zope.app.tree.interfaces import ITreeStateEncoder
 
 
@@ -59,7 +60,8 @@ class TreeStateEncoder(object):
 
 
 try:
-    from string import translate, maketrans
+    from string import maketrans
+    from string import translate
 except ImportError:
     maketrans = str.maketrans
     translate = str.translate

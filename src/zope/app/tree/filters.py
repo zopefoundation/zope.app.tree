@@ -24,8 +24,8 @@ statictree just as well.
 Since commonly needed, this module provides two filters that filter by
 interface.
 """
-from zope.interface import implementer
 from zope.container.interfaces import IObjectFindFilter
+from zope.interface import implementer
 
 
 @implementer(IObjectFindFilter)

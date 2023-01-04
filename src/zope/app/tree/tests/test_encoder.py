@@ -15,8 +15,8 @@
 
 """
 
-import unittest
 import doctest
+import unittest
 
 
 def test_suite():

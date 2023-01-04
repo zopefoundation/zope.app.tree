@@ -15,8 +15,10 @@
 
 """
 
-from zope.interface import Interface, Attribute
-from zope.schema import Bool, Int
+from zope.interface import Attribute
+from zope.interface import Interface
+from zope.schema import Bool
+from zope.schema import Int
 
 
 class IUniqueId(Interface):

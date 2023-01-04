@@ -14,15 +14,12 @@
 """Stateful cookie tree
 
 """
+import zope.component.interfaces
 import zope.traversing.api
-
-
 from zope.container.interfaces import IContainer
 
-from zope.app.tree.filters import OnlyInterfacesFilter
 from zope.app.tree.browser import StatefulTreeView
-
-import zope.component.interfaces
+from zope.app.tree.filters import OnlyInterfacesFilter
 
 
 class CookieTreeView(StatefulTreeView):

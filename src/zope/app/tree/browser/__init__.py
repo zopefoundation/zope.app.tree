@@ -17,8 +17,8 @@
 __docformat__ = 'restructuredtext'
 
 import zope.component
-from zope.publisher.interfaces.browser import IBrowserRequest
 from zope.publisher.browser import BrowserView
+from zope.publisher.interfaces.browser import IBrowserRequest
 
 from zope.app.tree.interfaces import ITreeStateEncoder
 from zope.app.tree.node import Node
