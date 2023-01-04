@@ -14,16 +14,19 @@
 """Base Test Case for Tree Tests
 
 """
-from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 import unittest
-from zope.interface import implementer, Interface, Attribute
-from zope.location import Location
 
 from zope.component.testing import PlacelessSetup
-from zope import component as ztapi
+from zope.interface import Attribute
+from zope.interface import Interface
+from zope.interface import implementer
+from zope.location import Location
+from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 
+from zope import component as ztapi
+from zope.app.tree.interfaces import IChildObjects
 from zope.app.tree.interfaces import ITreeStateEncoder
-from zope.app.tree.interfaces import IUniqueId, IChildObjects
+from zope.app.tree.interfaces import IUniqueId
 from zope.app.tree.node import Node
 from zope.app.tree.utils import TreeStateEncoder
 
@@ -46,7 +49,7 @@ class Item(Location):
 
 
 @implementer(IUniqueId)
-class ItemUniqueId(object):
+class ItemUniqueId:
     """Simplistic adapter from IItem to IUniqueId
     """
 
@@ -58,7 +61,7 @@ class ItemUniqueId(object):
 
 
 @implementer(IChildObjects)
-class ItemChildObjects(object):
+class ItemChildObjects:
     """Simplistic adapter from IItem to IChildObjects
     """
 
@@ -122,7 +125,7 @@ class BaseTestCase(PlacelessSetup, unittest.TestCase):
     expanded_nodes = ['a', 'c']
 
     def setUp(self):
-        super(BaseTestCase, self).setUp()
+        super().setUp()
         # provide necessary components
         ztapi.provideAdapter(ItemUniqueId, (IItem,), IUniqueId)
         ztapi.provideAdapter(ItemChildObjects, (IItem,), IChildObjects)

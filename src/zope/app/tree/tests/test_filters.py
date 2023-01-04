@@ -18,9 +18,11 @@ import unittest
 from zope.interface import directlyProvides
 from zope.interface.interface import InterfaceClass
 
-from zope.app.tree.filters import OnlyInterfacesFilter, AllButInterfacesFilter
+from zope.app.tree.filters import AllButInterfacesFilter
+from zope.app.tree.filters import OnlyInterfacesFilter
 
 from .test_adapters import SampleContent
+
 
 IRobot = InterfaceClass('IRobot', (), {})
 IHuman = InterfaceClass('IHuman', (), {})

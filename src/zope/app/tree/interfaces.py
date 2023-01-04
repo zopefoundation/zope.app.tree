@@ -15,8 +15,10 @@
 
 """
 
-from zope.interface import Interface, Attribute
-from zope.schema import Bool, Int
+from zope.interface import Attribute
+from zope.interface import Interface
+from zope.schema import Bool
+from zope.schema import Int
 
 
 class IUniqueId(Interface):
@@ -56,13 +58,13 @@ class INode(IUniqueId, IChildObjects):
         """)
 
     depth = Int(
-        title=u"Depth",
-        description=u"The positional depth of this node in the tree.",
+        title="Depth",
+        description="The positional depth of this node in the tree.",
     )
 
     expanded = Bool(
-        title=u"Expanded",
-        description=u"True if this node is expanded.",
+        title="Expanded",
+        description="True if this node is expanded.",
     )
 
     def expand(recursive=False):

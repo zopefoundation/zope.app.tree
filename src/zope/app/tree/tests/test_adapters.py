@@ -13,33 +13,36 @@
 ##############################################################################
 """Tree adapter tests
 """
-from __future__ import absolute_import
+
 import unittest
 
-from zope.interface import implementer, directlyProvides
-from zope.interface.interfaces import ComponentLookupError
-from zope.security.checker import defineChecker
-from zope.security.checker import NamesChecker
-from zope.traversing.interfaces import IContainmentRoot
-from zope.location.interfaces import ILocation
+import zope.component.interfaces
 import zope.traversing.testing
-
+from zope.component.testing import PlacelessSetup
+from zope.container.contained import setitem
 from zope.container.interfaces import IReadContainer
 from zope.container.sample import SampleContainer
-from zope.container.contained import setitem
-from zope.component.testing import PlacelessSetup
+from zope.interface import directlyProvides
+from zope.interface import implementer
+from zope.interface.interfaces import ComponentLookupError
+from zope.location.interfaces import ILocation
+from zope.security.checker import NamesChecker
+from zope.security.checker import defineChecker
+from zope.traversing.interfaces import IContainmentRoot
+
+from zope.app.tree.adapters import ContainerChildObjects
+from zope.app.tree.adapters import ContainerSiteChildObjects
+from zope.app.tree.adapters import LocationUniqueId
+from zope.app.tree.adapters import StubChildObjects
+from zope.app.tree.adapters import StubUniqueId
+from zope.app.tree.interfaces import IChildObjects
+from zope.app.tree.interfaces import ITreeStateEncoder
+from zope.app.tree.interfaces import IUniqueId
 from zope.app.tree.tests import basetest as ztapi
-
-from zope.app.tree.interfaces import IUniqueId, IChildObjects, \
-    ITreeStateEncoder
 from zope.app.tree.utils import TreeStateEncoder
-from zope.app.tree.adapters import StubUniqueId, StubChildObjects, \
-    LocationUniqueId, ContainerChildObjects, ContainerSiteChildObjects
-
-import zope.component.interfaces
 
 
-class SampleContent(object):
+class SampleContent:
     pass
 
 
@@ -56,7 +59,7 @@ class SampleSite(SampleContainer):
             raise ComponentLookupError
 
 
-class SiteManagerStub(object):
+class SiteManagerStub:
     """This stub is used for to check the permission on __getitem__."""
 
     def __getitem__(key):
@@ -66,7 +69,7 @@ class SiteManagerStub(object):
 class AdapterTestCase(PlacelessSetup, unittest.TestCase):
 
     def setUp(self):
-        super(AdapterTestCase, self).setUp()
+        super().setUp()
         # provide necessary components
         zope.traversing.testing.setUp()
         ztapi.provideAdapter(None, IUniqueId, StubUniqueId)

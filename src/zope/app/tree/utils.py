@@ -14,16 +14,17 @@
 """Static tree utilities
 
 """
-from binascii import b2a_base64, a2b_base64
-
 import zlib
+from binascii import a2b_base64
+from binascii import b2a_base64
 
 from zope.interface import implementer
+
 from zope.app.tree.interfaces import ITreeStateEncoder
 
 
 @implementer(ITreeStateEncoder)
-class TreeStateEncoder(object):
+class TreeStateEncoder:
     """Encodes tree state.
 
     Implements :class:`zope.app.tree.interfaces.ITreeStateEncoder`.
@@ -58,14 +59,8 @@ class TreeStateEncoder(object):
 #
 
 
-try:
-    from string import translate, maketrans
-except ImportError:
-    maketrans = str.maketrans
-    translate = str.translate
-
-a2u_map = maketrans('+/=', '-._')
-u2a_map = maketrans('-._', '+/=')
+a2u_map = str.maketrans('+/=', '-._')
+u2a_map = str.maketrans('-._', '+/=')
 
 
 def b2a(s):
@@ -82,14 +77,14 @@ def b2a(s):
     encoded = b''.join(frags)
     if not isinstance(encoded, str):
         encoded = encoded.decode('ascii')
-    return translate(encoded, a2u_map)
+    return str.translate(encoded, a2u_map)
 
 
 def a2b(s):
     '''Decode a b2a-encoded string.'''
     assert isinstance(s, str)
 
-    s = translate(s, u2a_map)
+    s = str.translate(s, u2a_map)
     frags = []
     for i in range(0, len(s), 76):
         frags.append(a2b_base64(s[i:i + 76]))

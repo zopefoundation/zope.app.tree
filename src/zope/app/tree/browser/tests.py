@@ -16,26 +16,27 @@
 """
 
 import unittest
-import zope.component
-import zope.interface
-import zope.component.interfaces
-from zope.component import getMultiAdapter
-from zope.publisher.browser import TestRequest
-from zope.interface import alsoProvides
-from zope.traversing.interfaces import IContainmentRoot
-from zope.location.traversing import LocationPhysicallyLocatable
-from zope.app.tree.tests import basetest as ztapi
 
-from zope.app.tree.utils import TreeStateEncoder
+import zope.component
+import zope.component.interfaces
+import zope.interface
+from zope.component import getMultiAdapter
+from zope.interface import alsoProvides
+from zope.location.traversing import LocationPhysicallyLocatable
+from zope.publisher.browser import TestRequest
+from zope.traversing.interfaces import IContainmentRoot
+
 from zope.app.tree.browser import StatefulTreeView
 from zope.app.tree.browser.cookie import CookieTreeView
+from zope.app.tree.tests import basetest as ztapi
 from zope.app.tree.tests.basetest import BaseTestCase
+from zope.app.tree.utils import TreeStateEncoder
 
 
 class StatefulTreeViewTest(BaseTestCase):
 
     def setUp(self):
-        super(StatefulTreeViewTest, self).setUp()
+        super().setUp()
         self.makeItems()
         # provide the view for all objects (None)
         ztapi.browserView(None, 'stateful_tree', StatefulTreeView)
@@ -47,7 +48,7 @@ class StatefulTreeViewTest(BaseTestCase):
 class CookieTreeViewTest(StatefulTreeViewTest):
 
     def setUp(self):
-        super(CookieTreeViewTest, self).setUp()
+        super().setUp()
         ztapi.browserView(None, 'cookie_tree', CookieTreeView)
         zope.component.provideAdapter(LocationPhysicallyLocatable,
                                       (zope.interface.Interface,))
