@@ -22,6 +22,7 @@
 import os
 import sys
 import pkg_resources
+
 sys.path.append(os.path.abspath('../src'))
 rqmt = pkg_resources.require('zope.app.tree')[0]
 
@@ -59,9 +60,9 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'zope.app.tree'
-copyright = u'2017, Zope Community'
-author = u'Zope Community'
+project = 'zope.app.tree'
+copyright = '2017-2024, Zope Community'
+author = 'Zope Community'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -77,7 +78,7 @@ release = rqmt.version
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = 'en'
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
@@ -124,7 +125,6 @@ pygments_style = 'sphinx'
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = False
 
-
 # -- Options for HTML output ----------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
@@ -144,7 +144,7 @@ html_theme = 'default'
 # The name for this set of Sphinx documents.
 # "<project> v<release> documentation" by default.
 #
-# html_title = u'zope.app.tree vXXX'
+# html_title = 'zope.app.tree vXXX'
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 #
@@ -249,29 +249,29 @@ htmlhelp_basename = 'zopeapp.treedoc'
 # -- Options for LaTeX output ---------------------------------------------
 
 latex_elements = {
-     # The paper size ('letterpaper' or 'a4paper').
-     #
-     # 'papersize': 'letterpaper',
+    # The paper size ('letterpaper' or 'a4paper').
+    #
+    # 'papersize': 'letterpaper',
 
-     # The font size ('10pt', '11pt' or '12pt').
-     #
-     # 'pointsize': '10pt',
+    # The font size ('10pt', '11pt' or '12pt').
+    #
+    # 'pointsize': '10pt',
 
-     # Additional stuff for the LaTeX preamble.
-     #
-     # 'preamble': '',
+    # Additional stuff for the LaTeX preamble.
+    #
+    # 'preamble': '',
 
-     # Latex figure (float) alignment
-     #
-     # 'figure_align': 'htbp',
+    # Latex figure (float) alignment
+    #
+    # 'figure_align': 'htbp',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'zopeapp.tree.tex', u'zope.app.tree Documentation',
-     u'Zope Community', 'manual'),
+    (master_doc, 'zopeapp.tree.tex', 'zope.app.tree Documentation',
+     'Zope Community', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -306,20 +306,16 @@ latex_documents = [
 #
 # latex_domain_indices = True
 
-
 # -- Options for manual page output ---------------------------------------
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [
-    (master_doc, 'zopeapp.tree', u'zope.app.tree Documentation',
-     [author], 1)
-]
+man_pages = [(master_doc, 'zopeapp.tree', 'zope.app.tree Documentation',
+              [author], 1)]
 
 # If true, show URL addresses after external links.
 #
 # man_show_urls = False
-
 
 # -- Options for Texinfo output -------------------------------------------
 
@@ -327,9 +323,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'zopeapp.tree', u'zope.app.tree Documentation',
-     author, 'zopeapp.tree', 'One line description of project.',
-     'Miscellaneous'),
+    (master_doc, 'zopeapp.tree', 'zope.app.tree Documentation', author,
+     'zopeapp.tree', 'One line description of project.', 'Miscellaneous'),
 ]
 
 # Documents to append as an appendix to all manuals.
@@ -348,23 +343,24 @@ texinfo_documents = [
 #
 # texinfo_no_detailmenu = False
 
-
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
-    'https://docs.python.org/': None,
-    'https://zopeinterface.readthedocs.io/en/latest': None,
-    'https://zopeevent.readthedocs.io/en/latest/': None,
-    'https://zopecomponent.readthedocs.io/en/latest/': None,
-    'https://zopelocation.readthedocs.io/en/latest/': None,
-    'https://zopecontainer.readthedocs.io/en/latest/': None,
-    'https://zopesite.readthedocs.io/en/latest/': None,
-    'https://zopepublisher.readthedocs.io/en/latest/': None,
+    'docs': ('https://docs.python.org/', None),
+    'zopeinterface': ('https://zopeinterface.readthedocs.io/en/latest', None),
+    'zopeevent': ('https://zopeevent.readthedocs.io/en/latest/', None),
+    'zopecomponent': ('https://zopecomponent.readthedocs.io/en/latest/', None),
+    'zopelocation': ('https://zopelocation.readthedocs.io/en/latest/', None),
+    'zopecontainer': ('https://zopecontainer.readthedocs.io/en/latest/', None),
+    'zopesite': ('https://zopesite.readthedocs.io/en/latest/', None),
+    'zopepublisher': ('https://zopepublisher.readthedocs.io/en/latest/', None),
 }
 
-extlinks = {'issue': ('https://github.com/zopefoundation/zope.app.tree/issues/%s',
-                      'issue #'),
-            'pr': ('https://github.com/zopefoundation/zope.app.tree/pull/%s',
-                   'pull request #')}
+extlinks = {
+    'issue':
+    ('https://github.com/zopefoundation/zope.app.tree/issues/%s', 'issue #'),
+    'pr': ('https://github.com/zopefoundation/zope.app.tree/pull/%s',
+           'pull request #')
+}
 
 autodoc_default_flags = ['members', 'show-inheritance']
 autoclass_content = 'both'
